@@ -54,7 +54,7 @@ CREATE TABLE inventory(
         ON UPDATE CASCADE
 );
 
-CREATE TABLE perscriptions(
+CREATE TABLE prescriptions(
 	id INT AUTO_INCREMENT,
     patient_id INT NOT NULL,
     drug_id INT NOT NULL,
