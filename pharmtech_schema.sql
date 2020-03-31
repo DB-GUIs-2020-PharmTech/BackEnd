@@ -38,7 +38,7 @@ CREATE TABLE drugs(
     rec_stock_amount INT NOT NULL,
     drug_type INT NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY(drug_type)
+    FOREIGN KEY (drug_type)
 		REFERENCES drug_types(id)
         ON UPDATE CASCADE
 );
@@ -63,13 +63,13 @@ CREATE TABLE prescriptions(
     create_date DATE,
     doctor_id INT NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY(patient_id)
+    FOREIGN KEY (patient_id)
 		REFERENCES user(id)
         ON UPDATE CASCADE,
-	FOREIGN KEY(doctor_id)
+	FOREIGN KEY (doctor_id)
 		REFERENCES user(id)
         ON UPDATE CASCADE,
-	FOREIGN KEY(drug_id)
+	FOREIGN KEY (drug_id)
 		REFERENCES drugs(id)
         ON UPDATE CASCADE
 );
@@ -80,8 +80,8 @@ CREATE TABLE inventory_orders(
     order_date DATE,
     fulfill_date DATE,
     quantity INT NOT NULL,
-    PRIMARY KEY(id),
-    FOREIGN KEY(drug_id)
+    PRIMARY KEY (id),
+    FOREIGN KEY (drug_id)
 		REFERENCES drugs(id)
         ON UPDATE CASCADE
 );
