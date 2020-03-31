@@ -10,8 +10,10 @@ CREATE TABLE user_type(
 
 CREATE TABLE user(
 	id INT AUTO_INCREMENT,
-    name VARCHAR(50),
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
     password VARCHAR(100),
+    email VARCHAR(500),
     userType_id INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (userType_id)
@@ -61,7 +63,10 @@ CREATE TABLE perscriptions(
     create_date DATE,
     doctor_id INT NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY(patient_id, doctor_id)
+    FOREIGN KEY(patient_id)
+		REFERENCES user(id)
+        ON UPDATE CASCADE,
+	FOREIGN KEY(doctor_id)
 		REFERENCES user(id)
         ON UPDATE CASCADE,
 	FOREIGN KEY(drug_id)
