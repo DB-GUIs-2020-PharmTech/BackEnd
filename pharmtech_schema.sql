@@ -11,6 +11,7 @@ CREATE TABLE user_type(
 CREATE TABLE user(
 	id INT AUTO_INCREMENT,
     name VARCHAR(50),
+    password VARCHAR(100),
     userType_id INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (userType_id)
@@ -29,7 +30,7 @@ INSERT INTO drug_types (name) VALUES ('antibiotic'), ('tranquilizer'), ('antipyr
 CREATE TABLE drugs(
 	id INT AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
-    description VARCHAR(500),
+    description VARCHAR(1000),
     sell_price FLOAT NOT NULL,
     purchase_price FLOAT NOT NULL,
     rec_stock_amount INT NOT NULL,
