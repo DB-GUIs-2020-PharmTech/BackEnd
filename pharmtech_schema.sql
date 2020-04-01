@@ -53,6 +53,7 @@ CREATE TABLE drugs(
     sell_price FLOAT NOT NULL,
     purchase_price FLOAT NOT NULL,
     rec_stock_amount INT NOT NULL,
+    unit_measure VARCHAR(50) NOT NULL,
     drug_type INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY(drug_type)
@@ -60,19 +61,19 @@ CREATE TABLE drugs(
         ON UPDATE CASCADE
 );
 
-INSERT INTO drugs (name, sell_price, purchase_price, rec_stock_amount, drug_type) VALUES 
-	('amoxicillin', 2.50, 1.00, 5000, 1),
-    ('doxyxycline', 4.00, 2.50, 3000, 1),
-    ('cephalexin', 3.25, 1.75, 2000, 1),
-    ('diazepam', 3.00, 2.00, 4000, 2),
-    ('alprazolam', 2.75, 1.10, 4000, 2),
-    ('clonazepam', 4.00, 2.90, 2000, 2),
-    ('asparin', 2.00, .90, 6000, 3),
-    ('acetaminophen', 1.80, .50, 4000, 3),
+INSERT INTO drugs (name, sell_price, purchase_price, rec_stock_amount, unit_measure, drug_type) VALUES 
+	('amoxicillin', 2.50, 1.00, 5000, 'mg', 1),
+    ('doxyxycline', 4.00, 2.50, 3000, 'mg', 1),
+    ('cephalexin', 3.25, 1.75, 2000, 'mg', 1),
+    ('diazepam', 3.00, 2.00, 4000, 'mg', 2),
+    ('alprazolam', 2.75, 1.10, 4000, 'mg', 2),
+    ('clonazepam', 4.00, 2.90, 2000, 'mg', 2),
+    ('aspirin', 2.00, .90, 6000, 'mg', 3),
+    ('acetaminophen', 1.80, .50, 4000, 'tablets', 3),
     ('ibuprofen', 1.90, .80, 6000, 3),
-    ('naproxen', 1.50, .50, 6000, 4),
-    ('diclofenac', 2.30, 1.40, 5000, 4),
-    ('ketorolac', 3.00, 2.60, 2000, 4);
+    ('naproxen', 1.50, .50, 6000, 'ml', 4),
+    ('diclofenac', 2.30, 1.40, 5000, 'mg', 4),
+    ('ketorolac', 3.00, 2.60, 2000, 'ml', 4);
 
 DROP TABLE IF EXISTS inventory;
 CREATE TABLE inventory(
@@ -97,11 +98,13 @@ INSERT INTO inventory (drug_id, quantity, exp_date) VALUES
     (8, 1080, '2020-03-16'),
     (9, 1976, '2021-02-13'),
     (10, 3732,'2023-12-15'),
-    (11, 1204, '2019-12-31'),
+    (11, 1204, '2020-12-31'),
     (12, 701, '2024-01-20'),
     (1, 2000, '2021-02-21'),
     (7, 6000, '2022-07-02'),
-    (12, 1000, '2023-03-31');
+    (12, 1000, '2023-03-31'),
+    (2, 500, '2019-03-31'),
+    (11, 25, '202-03-31');
 
 DROP TABLE IF EXISTS perscriptions;
 CREATE TABLE perscriptions(
