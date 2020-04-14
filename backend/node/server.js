@@ -44,6 +44,78 @@ app.get('/', (req, res) => {
   res.status(200).send('Go to 0.0.0.0:3000.');
 });
 
+//inventory for pharmacist, manager, and doctor
+app.get('/pharmacyinventory', (req, res) => {
+  connection.query('SELECT  FROM `pharmtech`.`inventory`', function (err, rows, fields) {
+    if (err) {
+      logger.error("Error while executing Query");
+      res.status(400).json({
+        "data": [],
+        "error": "MySQL error"
+      })
+    }
+    else{
+      res.status(200).json({
+        "data": rows
+      });
+    }
+  });
+});
+
+//pharmacy revenues
+app.get('/pharmacyinventory', (req, res) => {
+  connection.query('SELECT  FROM `pharmtech`.`inventory`', function (err, rows, fields) {
+    if (err) {
+      logger.error("Error while executing Query");
+      res.status(400).json({
+        "data": [],
+        "error": "MySQL error"
+      })
+    }
+    else{
+      res.status(200).json({
+        "data": rows
+      });
+    }
+  });
+});
+
+//inventory for manufacturer
+app.get('/manufacturerinventory', (req, res) => { 
+  connection.query('SELECT * FROM `pharmtech`.`XXXX`', function (err, rows, fields) {
+    if (err) {
+      logger.error("Error while executing Query");
+      res.status(400).json({
+        "data": [],
+        "error": "MySQL error"
+      })
+    }
+    else{
+      res.status(200).json({
+        "data": rows
+      });
+    }
+  });
+});
+
+//outgoing orders for manufacturer
+app.get('/manufacturerinventory', (req, res) => { 
+  connection.query('SELECT * FROM `pharmtech`.`inventory_orders` WHERE fulfill_date IS NULL', function (err, rows, fields) {
+    if (err) {
+      logger.error("Error while executing Query");
+      res.status(400).json({
+        "data": [],
+        "error": "MySQL error"
+      })
+    }
+    else{
+      res.status(200).json({
+        "data": rows
+      });
+    }
+  });
+});
+
 //connecting the express object to listen on a particular port as defined in the config object.
 app.listen(config.port, config.host, (e) => {
   if (e) {
