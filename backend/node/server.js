@@ -46,7 +46,7 @@ app.get('/', (req, res) => {
 
 //inventory for pharmacist, manager, and doctor
 app.get('/pharmacyinventory', (req, res) => {
-  connection.query('SELECT  FROM `pharmtech`.`inventory`', function (err, rows, fields) {
+  connection.query('SELECT * FROM `pharmtech`.`inventory`', function (err, rows, fields) {
     if (err) {
       logger.error("Error while executing Query");
       res.status(400).json({
@@ -63,8 +63,8 @@ app.get('/pharmacyinventory', (req, res) => {
 });
 
 //pharmacy revenues
-app.get('/pharmacyinventory', (req, res) => {
-  connection.query('SELECT  FROM `pharmtech`.`inventory`', function (err, rows, fields) {
+app.get('/pharmacyrev', (req, res) => {
+  connection.query('SELECT d.name, d.sell_price * p.quantity FROM `pharmtech`.`perscriptions` p join `pharmtech`.`drugs` d on d.id = p.drug_id WHERE p.fill_date IS NOT NULL', function (err, rows, fields) {
     if (err) {
       logger.error("Error while executing Query");
       res.status(400).json({
@@ -79,6 +79,97 @@ app.get('/pharmacyinventory', (req, res) => {
     }
   });
 });
+
+//pharmacy expenses
+app.get('/pharmacyexp', (req, res) => {
+  connection.query('SELECT d.name, d.purchase_price * io.quantity FROM `pharmtech`.`inventory_orders` io join `pharmtech`.`drugs` d on d.id = io.drug_id WHERE io.fulfill_date IS NOT NULL', function (err, rows, fields) {
+    if (err) {
+      logger.error("Error while executing Query");
+      res.status(400).json({
+        "data": [],
+        "error": "MySQL error"
+      })
+    }
+    else{
+      res.status(200).json({
+        "data": rows
+      });
+    }
+  });
+});
+
+//pharmacy sales
+app.get('/pharmacysales', (req, res) => {
+  connection.query('SELECT u.first_name, u.last_name, d.name, d.sell_price FROM `pharmtech`.`perscriptions` p join `pharmtech`.`drugs` d on d.id = p.drug_id join `pharmtech`.`user` u on u.id = p.patient_id WHERE p.fill_date IS NOT NULL LIMIT 5', function (err, rows, fields) {
+    if (err) {
+      logger.error("Error while executing Query");
+      res.status(400).json({
+        "data": [],
+        "error": "MySQL error"
+      })
+    }
+    else{
+      res.status(200).json({
+        "data": rows
+      });
+    }
+  });
+});
+
+//pharmacist incoming orders
+app.get('/pharmacyincoming', (req, res) => {
+  connection.query('SELECT * FROM `pharmtech`.`perscriptions` WHERE fill_date IS NULL', function (err, rows, fields) {
+    if (err) {
+      logger.error("Error while executing Query");
+      res.status(400).json({
+        "data": [],
+        "error": "MySQL error"
+      })
+    }
+    else{
+      res.status(200).json({
+        "data": rows
+      });
+    }
+  });
+});
+
+//pharmacist outgoing orders
+app.get('/pharmacyoutgoing', (req, res) => {
+  connection.query('SELECT * FROM `pharmtech`.`perscriptions` WHERE fill_date IS NOT NULL', function (err, rows, fields) {
+    if (err) {
+      logger.error("Error while executing Query");
+      res.status(400).json({
+        "data": [],
+        "error": "MySQL error"
+      })
+    }
+    else{
+      res.status(200).json({
+        "data": rows
+      });
+    }
+  });
+});
+
+//cart
+app.get('/pharmacycart', (req, res) => {
+  connection.query('SELECT name, description, purchase_price, rec_stock_amount, unit_measure, drug_type FROM `pharmtech`.`drugs`', function (err, rows, fields) {
+    if (err) {
+      logger.error("Error while executing Query");
+      res.status(400).json({
+        "data": [],
+        "error": "MySQL error"
+      })
+    }
+    else{
+      res.status(200).json({
+        "data": rows
+      });
+    }
+  });
+});
+
 
 //inventory for manufacturer
 app.get('/manufacturerinventory', (req, res) => { 
@@ -100,7 +191,7 @@ app.get('/manufacturerinventory', (req, res) => {
 
 //outgoing orders for manufacturer
 app.get('/manufacturerinventory', (req, res) => { 
-  connection.query('SELECT * FROM `pharmtech`.`inventory_orders` WHERE fulfill_date IS NULL', function (err, rows, fields) {
+  connection.query('SELECT * FROM `pharmtech`.`inventory_orders` WHERE fulfill_date IS NOT NULL', function (err, rows, fields) {
     if (err) {
       logger.error("Error while executing Query");
       res.status(400).json({
